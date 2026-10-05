@@ -79,13 +79,26 @@ Optional parameters:
 
 | Parameter | What it does |
 |---|---|
-| `?return_url=<https URL>` | After the top-up, the page shows "Continue →" back to this URL. It is honoured **only for registered Pentagon ecosystem domains**; any other URL is ignored and the user simply gets "Done". Ask to have your domain added if you need it. URL-encode the value. |
+| `?return_url=<https URL>` | After the top-up, the page shows "Continue →" back to this URL. URL-encode the value. It is honoured only for `https://` URLs on a Pentagon ecosystem domain (see below); anything else is ignored and the user simply gets "Done". |
 | `#sso_token=<ssoToken>` | Hands over the user's sign-in so they are not asked to sign in again on the top-up page. It goes in the URL **fragment** (after `#`), which browsers do not send to servers. |
 | `?points=<N>` | Makes that package the main button. `N` is one of `100`, `425`, `1000`, `2500`, `5500`; anything else is ignored and 1,000 leads. |
 | `?points=<N>&checkout=1` | **Straight to checkout.** Skips the amount screen: as soon as the account is known, the window goes to the Stripe checkout for that package, then comes back, shows delivery, and continues to `return_url` by itself. See below. |
 
 If you pass nothing, the page signs the user in itself (same Sign in with
 Pentagon card) and carries on.
+
+#### Which domains `return_url` accepts
+
+Any subdomain of these, over `https://` — so you can check your own URL before
+you ship rather than finding out it silently fell back to "Done":
+
+`pentagon.games` · `pentaswap.io` · `etherfantasy.com` · `gunnies.io` ·
+`bcsh.xyz` · `gemry.ai` · `rugpull.art` · `etherfamily.com` · `peg.gg`
+
+The restriction is the point, not an inconvenience: an arbitrary `return_url`
+would let a crafted link walk a user who has just paid straight off-site. If
+your domain belongs on that list, ask — it is a one-line change on our side,
+not a new feature.
 
 Do **not** pass a wallet address, and do not try to choose the recipient: the
 page resolves the signed-in account's own wallet. Points always go to the
@@ -125,8 +138,10 @@ Rules that keep this safe, so you know what to expect:
   rather than hard-coding it.
 - The user must be signed in on the top-up page. Pass `#sso_token=` to avoid a
   second sign-in; otherwise the sign-in card shows first and checkout follows.
-- It runs once per visit. Coming back with the browser's Back button shows the
-  amount list rather than starting a second checkout.
+- It auto-starts at most once per tab per 30 minutes. Coming back with the
+  browser's Back button, or reloading, shows the amount list rather than
+  starting a second checkout. If you are testing `checkout=1` and it stops
+  firing, that is this rule, not a broken link — use a new tab or wait it out.
 - `checkout=1` without a valid `points` does nothing.
 
 ## 3. What the user sees

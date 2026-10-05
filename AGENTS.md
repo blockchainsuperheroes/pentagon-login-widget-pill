@@ -314,12 +314,15 @@ showing a misleading `0`.
 - It needs the visitor's pentagon.games session. A visitor without one is asked
   to sign in *inside that window*.
 - **Cancel top up** is in there. It checks first that no payment went through.
-- **Only one amount shows right now, on purpose.** The other bundles (100 /
-  425 / 2,500 / 5,500) exist in Stripe but have no fulfillment SKU
-  (`sku_id = 0`). Buying one would charge the card and deliver nothing, so
-  /topup hides them. They appear under "More amounts" by themselves once
-  payments wires `metadata.sku_id` and the fulfillment config for each one.
-  Nothing on the front-end needs to change.
+- **All five amounts sell** — 100 / 425 / 1,000 / 2,500 / 5,500 Points. 1,000
+  leads and the rest fold under "More amounts"; `?points=<N>` promotes another
+  one (see [TOPUP-AND-POINTS.md](TOPUP-AND-POINTS.md)).
+  This paragraph used to say the opposite — that only one amount was safe and
+  the other four would charge without delivering. That was true when the page
+  trusted Stripe's `metadata.sku_id`, which still carries `0` on four of the
+  five products. /topup no longer reads it: it maps each Stripe `priceId` to
+  its fulfilment SKU itself, so all five deliver. Payments confirmed delivery
+  on all five.
 
 ### Other
 
