@@ -80,6 +80,30 @@ genuinely need browser-side calls, ask for a CORS entry when you request your cl
 
 `opts.clientId` overrides `data-client-id`.
 
+## Arriving already signed in (`#sso=`)
+
+From pg-signin.js 2026-10-05 (fragment hand-off with audience check): when the
+Pentagon AI wallet opens your site for a signed-in user, it appends
+`#sso=<token>` to your URL. The script picks it up on load, so the user is not
+asked to log in again. You don't write any code for this.
+
+What the script does, in order:
+1. Removes `sso` / `sso_token` from the URL before any network call. Other
+   fragment params stay. The token never sits in history or leaves in a Referer.
+2. Checks the token with `POST /sso/validate`, and accepts it only if the
+   token's client is your `data-client-id` and its registered origin is your
+   page's origin. A token minted for another site is refused.
+3. Stores it as `pg_sso_token` and fires the same `pg:auth` event as a popup
+   login, with `detail: { ssoToken, via: 'fragment' }`.
+
+What you need:
+- `data-client-id` set on the script tag. Without it, hand-offs are refused.
+- Your page listed in the wallet's hand-off list. Ask Pentagon to add it.
+
+The token is only ever in the fragment (`#`), never in the query string.
+pentagon.games' own pages are skipped: there the session is already in
+storage, and /topup reads its own hand-off codes.
+
 ## What the user sees
 
 One window covering every way into a Pentagon account:
