@@ -60,8 +60,9 @@ balances has reimplemented the problem.
    take the login and discard the balance display.
    And the pill is the **only** login widget on the page: you **MUST NOT**
    render a second account chip, Points display, Log in / Sign up button or
-   Top up button beside it. The pill names the account ("nftprof1 · 3,690
-   Points"), reads "Log in" when signed out, and carries sign-in, Top up and
+   Top up button beside it. Signed in with no wallet the pill is just the
+   Points ("3,690 Pts ▾") — the account name lives in the panel, not inline on
+   the pill; it reads "Log in" when signed out, and carries sign-in, Top up and
    sign-out. Two widgets showing the same balance is the drift this standard
    exists to stop — pentagon.games itself shipped exactly that, and removed it.
    Other prompts on your page that ask someone to log in call

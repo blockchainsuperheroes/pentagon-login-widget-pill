@@ -16,7 +16,11 @@ more.
 - Source of truth: `site/connector/pc-connector.js` in
   `blockchainsuperheroes/pentagon-games-website`, served at
   `https://pentagon.games/connector/pc-connector.js`. The `pill/` folder here is
-  a read-only mirror of the current release for review. **Never serve it.**
+  a read-only copy for review. **Never serve it.** It currently holds
+  **1.1.0**, one release behind the live file (1.1.1) — its bytes do match the
+  real `pc-connector-1.1.0.js`, so it is a faithful copy of 1.1.0, just not of
+  what is live. Read it for shape, not for current behaviour, and diff against
+  the source of truth before relying on any detail.
 - Owner: the pentagon.games website session (nftprof decides design).
 
 ---
@@ -197,7 +201,7 @@ before `DOMContentLoaded`.
 | `PCConnector.onChange(fn)` | Called whenever that state changes. |
 | `PCConnector.connect()` / `switchToPentagonChain()` | Open the pill's connect, or request the chain switch. |
 | `PCConnector.mount(el)` / `unmount(el)` | SPAs that re-render the nav: `unmount` before the element goes, `mount` when it is back. |
-| `PCConnector.version` | `'1.1.0'` |
+| `PCConnector.version` | `'1.1.1'` (what the auto-updating file reports today) |
 
 **Event:** `window` receives `pg:auth` (`CustomEvent`, `detail.ok` /
 `detail.signedOut`) on sign-in and sign-out. Listen for it and your page state
