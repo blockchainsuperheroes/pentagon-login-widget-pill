@@ -158,13 +158,19 @@ wallet gets linked**: the Pentagon AI apps show the linked wallet read-only and
 send "Link a wallet" to pentagon.games (products-wallet-rn SPEC §25c-ii). Don't
 build a bind flow on your own site.
 
-**Footer (signed in):** **Account & privacy ↗** opens `pentagon.games/account` in a
-new tab, on its own row above **Sign out** / **Disconnect wallet**. Privacy decides
-what *other people* see when they look you up (pump.pentagon.games, Friends).
-`/account` is the one address for account settings: the old settings page today,
-forwarded to the Pentagon AI app's settings once the app can take them
-(products-wallet-rn SPEC §25). Don't build account settings on your own site; link
-there.
+**Footer (signed in):** **Account & privacy ↗** opens
+`pentagon.games/pgai/web-local-app/?open=privacy` in a new tab, on its own row
+above **Sign out** / **Disconnect wallet**. Privacy decides what *other people*
+see when they look you up (pump.pentagon.games, Friends). Don't build account
+settings on your own site; link there.
+
+Settings moved into the Pentagon AI app on 2026-10-01 (`?open=privacy` works
+without an in-app wallet and adopts the page's login), and the pill links them
+directly. **`pentagon.games/account` is retired** — it now serves only the
+"Oops, this is the old account page" notice, so do not send users to it. This
+paragraph used to name `/account` as "the one address for account settings",
+which is how it ended up asserted in `pill-probe.mjs` too; both have been
+corrected.
 
 Signed out, with no wallet, the panel has **one Connect** plus **Log in with
 Pentagon**. Connect logs the visitor in by itself when the wallet belongs to an
